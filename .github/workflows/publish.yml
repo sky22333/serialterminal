@@ -1,47 +1,70 @@
-name: Publish
+name: 部署到 GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      # 产物只由这些文件决定，README / docs 之类的改动不必重新发布
+      - 'src/**'
+      - 'public/**'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+      - '.github/workflows/publish.yml'
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
+      - name: 检出代码
+        uses: actions/checkout@v6
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: 设置 Node.js
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
-      - name: Install dependencies
+      - name: 安装依赖
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
+      - name: 代码检查
+        run: npm run check
 
-      - name: Type check
-        run: npm run typecheck
+      # 先初始化 Pages，后续步骤才能拿到 base_path 等上下文
+      - name: 设置 Pages
+        uses: actions/configure-pages@v6
 
-      - name: Test
-        run: npm test
-
-      - name: Build
+      - name: 构建站点
         run: npm run build
         env:
-          # 页脚展示的构建号，替代过去用 sed 改写源文件的做法
+          # 页脚展示的构建号，本地没有这个变量时显示 dev
           VITE_VERSION: ${{ github.sha }}
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v5
         with:
-          personal_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./dist
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
