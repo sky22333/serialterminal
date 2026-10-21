@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* 只做类型检查，产物交给 Vite（esbuild） */
+    "noEmit": true,
+
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+
+    /* vite/client 提供 import.meta.env 与 css / 图片等资源声明，
+       w3c-web-serial 提供 SerialPort、navigator.serial（lib.dom 里还没有） */
+    "types": ["vite/client", "w3c-web-serial", "vitest/globals"],
+
+    /* 严格模式全开：这个项目的核心风险是「脏数据一路传到浏览器 API 才炸」，
+       而 strict 恰好能把 null / unknown 挡在边界上 */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+
+    /* Vite 走 esbuild 单文件转译，风格上必须与「一次只看到一个文件」兼容 */
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+
+    /* 依赖里的 .d.ts 不做二次检查，省时间也避免被第三方类型问题卡住 */
+    "skipLibCheck": true
+  },
+  "include": ["src", "vite.config.ts"]
+}

@@ -1,0 +1,22 @@
+{
+  "short_name": "串口终端",
+  "name": "网页串口终端",
+  "description": "在浏览器里直接调试串口的网页版串口终端",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "logo768.png",
+      "type": "image/png",
+      "sizes": "768x512"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2c387e",
+  "background_color": "#ffffff"
+}

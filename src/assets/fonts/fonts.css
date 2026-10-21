@@ -1,0 +1,53 @@
+/* 只保留 woff2：Web Serial 本身只在新版 Chromium 里可用，
+   eot / ttf / svg 这些给 IE 和旧 Android 用的格式没有存在意义。 */
+
+/* Bungee（顶栏标题） */
+@font-face {
+    font-family: 'Bungee';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./bungee-v6-latin-regular.woff2') format('woff2');
+}
+
+/* Roboto（界面文字） */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('./roboto-v27-latin-300.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./roboto-v27-latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('./roboto-v27-latin-700.woff2') format('woff2');
+}
+
+/* Roboto Mono（终端内容） */
+@font-face {
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./roboto-mono-v13-latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('./roboto-mono-v13-latin-600.woff2') format('woff2');
+}

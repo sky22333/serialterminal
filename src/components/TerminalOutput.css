@@ -1,0 +1,330 @@
+.terminalOutput {
+    position: relative;
+    height: calc(100vh - 200px);
+    min-height: 10em;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 工具栏 + 终端容器的定位参照 */
+.contentWrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminalButtons {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: calc(100% - 3rem);
+    margin: 0;
+    padding: 0;
+    background: rgba(32, 33, 36, .82);
+    border-bottom-left-radius: 4px;
+    color: #fff;
+}
+
+.terminalButtons>button {
+    color: #fff !important;
+    /* 工具按钮压窄一点，少遮挡第一行内容 */
+    min-width: 38px !important;
+    padding: 4px 6px !important;
+}
+
+.terminalButtons>button.Mui-disabled {
+    color: #aaa !important;
+}
+
+.terminalButtons>button.active {
+    color: #fbbc05 !important;
+}
+
+.terminalButtons>button.MuiButtonGroup-groupedTextHorizontal:not(:last-child) {
+    border-color: #777 !important;
+}
+
+/* 搜索条 */
+.searchBar {
+    display: flex;
+    align-items: center;
+    gap: .25em;
+    padding: .3em .4em;
+    background: #202124;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid #3c4043;
+    color: #aaa;
+}
+
+.searchBar .searchField {
+    flex: 1;
+}
+
+.searchBar .searchField .MuiInputBase-input {
+    color: #e8eaed;
+    font-size: .85rem;
+    padding: .35em .6em;
+}
+
+.searchBar .searchField .MuiOutlinedInput-notchedOutline {
+    border-color: #555;
+}
+
+.searchBar .searchField:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #888;
+}
+
+.searchBar .searchField .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #fbbc05 !important;
+}
+
+.searchBar .searchCount {
+    font-size: .75rem;
+    color: #aaa;
+    white-space: nowrap;
+    min-width: 3.5em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.searchBar .MuiIconButton-root {
+    color: #ddd;
+    padding: 4px;
+}
+
+.searchBar .MuiIconButton-root.Mui-disabled {
+    color: #666;
+}
+
+/* 滚动容器 */
+.codeContainer {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    background: #202124;
+    border-radius: 4px;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+}
+
+.searchBar+.contentWrap .codeContainer {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.codeContainer::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.codeContainer::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+}
+
+.codeContainer::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.codeContainer::-webkit-scrollbar-corner {
+    background: transparent;
+    border-radius: 4px;
+}
+
+.codeBody {
+    display: block;
+    margin: .5rem;
+    padding: 0;
+    font-family: Roboto Mono, monospace;
+    font-weight: 400;
+    font-size: .9rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+/* 暂停时右下角浮出「回到底部」，这时才在底部留出空间，平时不留白 */
+.contentWrap.paused .codeBody {
+    padding-bottom: 3rem;
+}
+
+/* 定时发送角标占着左下角，同样给最后一行留出空间 */
+.contentWrap.withTimer .codeBody {
+    padding-bottom: 3rem;
+}
+
+/* 关闭「自动折行」时保持原样，长行横向滚动 */
+.codeBody.nowrap {
+    white-space: pre;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+.codeBody>p {
+    padding: 0;
+    margin: 0;
+    /* 选中多行复制时不会被行号或标记打断 */
+    min-height: 1.2em;
+}
+
+.codeBody>p.matchCurrent {
+    background: rgba(251, 188, 5, .1);
+    border-radius: 2px;
+}
+
+/* 虚拟滚动的上下占位块，只负责撑高度，不接收事件 */
+.virtualPad {
+    pointer-events: none;
+}
+
+span.time {
+    font-weight: 400;
+    color: #9aa0a6;
+}
+
+span.output {
+    color: #fff;
+}
+
+span.userInput {
+    color: #fbbc05;
+    font-weight: 600;
+    display: inline-block;
+    width: 100%;
+    /* 下划线只是分隔线，跟着字色走满不透明太抢眼，压到四成 */
+    border-bottom: 1px solid rgba(251, 188, 5, .4);
+}
+
+/* 空内容的发送行只剩一条下划线，用回车符号补上含义 */
+span.emptyEcho {
+    color: rgba(251, 188, 5, .55);
+    font-weight: 400;
+}
+
+mark {
+    background: #fbbc05;
+    color: #202124;
+    border-radius: 2px;
+    padding: 0 1px;
+}
+
+/* 还没换行的那一行：块状光标提示「正在接收」 */
+span.pending::after {
+    content: '';
+    display: inline-block;
+    width: .55em;
+    height: 1.05em;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    background: #fbbc05;
+    opacity: .75;
+}
+
+@keyframes pending-blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    span.pending::after {
+        animation: pending-blink 1.1s steps(2, start) infinite;
+    }
+}
+
+/* 定时发送进行中的角标 */
+.timerBadge {
+    position: absolute;
+    left: .7em;
+    bottom: .7em;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: .35em;
+    padding: .1em .4em .1em .5em;
+    background: rgba(32, 33, 36, .92);
+    border: 1px solid #fbbc05;
+    border-radius: 999px;
+    color: #fbbc05;
+    font-size: .74rem;
+}
+
+.timerBadge .MuiButton-root {
+    color: #fbbc05 !important;
+    min-width: 0 !important;
+    font-size: .74rem !important;
+    padding: 0 .35em !important;
+}
+
+/* 暂停自动滚动时的浮层按钮 */
+.gotoBottom {
+    position: absolute;
+    right: 1.1em;
+    bottom: .7em;
+    z-index: 4;
+    color: #202124 !important;
+    background: #fbbc05 !important;
+    font-size: .78rem !important;
+    text-transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .45) !important;
+}
+
+.gotoBottom:hover {
+    background: #ffcf3f !important;
+}
+
+/* 命令宏快捷条 */
+.macroBar {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .3rem .5rem;
+    background: #202124;
+    border-radius: 4px;
+}
+
+.macroList {
+    display: flex;
+    gap: .4rem;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.macroList::-webkit-scrollbar {
+    height: 4px;
+}
+
+.macroList::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.macroChip {
+    background: #3c4043 !important;
+    color: #e8eaed !important;
+    font-family: Roboto Mono, monospace !important;
+    flex-shrink: 0;
+}
+
+.macroChip:hover {
+    background: #4a4f54 !important;
+}
+
+.macroManage {
+    flex-shrink: 0;
+    color: #bdc1c6 !important;
+    font-size: .74rem !important;
+    white-space: nowrap;
+}
