@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Badge from '@mui/material/Badge'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -596,13 +597,28 @@ const TerminalOutput = (props: TerminalOutputProps) => {
         {!autoScroll &&
           <Button
             className='gotoBottom'
-            size='small'
-            variant='contained'
-            disableElevation
             onClick={scrollToBottom}
-            startIcon={<VerticalAlignBottomIcon />}
+            aria-label={newCount > 0 ? `回到底部，新增 ${newCount} 行` : '回到底部'}
           >
-            {newCount > 0 ? `回到底部 · 新增 ${newCount} 行` : '回到底部'}
+            <Badge
+              badgeContent={newCount}
+              max={99}
+              overlap='circular'
+              sx={{
+                '& .MuiBadge-badge': {
+                  minWidth: 14,
+                  height: 14,
+                  padding: 0,
+                  border: '1px solid #202124',
+                  fontSize: '.52rem',
+                  fontWeight: 700,
+                  background: '#fbbc05',
+                  color: '#202124',
+                },
+              }}
+            >
+              <VerticalAlignBottomIcon sx={{ fontSize: 17, display: 'block' }} />
+            </Badge>
           </Button>
         }
 

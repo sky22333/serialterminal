@@ -155,7 +155,7 @@
 
 /* 暂停时右下角浮出「回到底部」，这时才在底部留出空间，平时不留白 */
 .contentWrap.paused .codeBody {
-    padding-bottom: 3rem;
+    padding-bottom: 2.5rem;
 }
 
 /* 定时发送角标占着左下角，同样给最后一行留出空间 */
@@ -266,21 +266,26 @@ span.pending::after {
     padding: 0 .35em !important;
 }
 
-/* 暂停自动滚动时的浮层按钮 */
-.gotoBottom {
+/* 双类选择器压过 ButtonBase 自带的 position: relative，否则会变成占位的横条 */
+.contentWrap>.gotoBottom {
     position: absolute;
-    right: 1.1em;
+    right: .7em;
     bottom: .7em;
     z-index: 4;
-    color: #202124 !important;
-    background: #fbbc05 !important;
-    font-size: .78rem !important;
-    text-transform: none !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .45) !important;
+    min-width: 0;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    overflow: visible;
+    border: 1px solid rgba(251, 188, 5, .5);
+    border-radius: 50%;
+    background: rgba(32, 33, 36, .9);
+    color: #fbbc05;
 }
 
-.gotoBottom:hover {
-    background: #ffcf3f !important;
+.contentWrap>.gotoBottom:hover {
+    background: rgba(251, 188, 5, .16);
+    border-color: #fbbc05;
 }
 
 /* 命令宏快捷条 */
