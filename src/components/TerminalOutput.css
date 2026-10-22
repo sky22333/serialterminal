@@ -1,6 +1,6 @@
 .terminalOutput {
     position: relative;
-    height: calc(100vh - 200px);
+    flex: 1;
     min-height: 10em;
     margin: 0;
     padding: 0;

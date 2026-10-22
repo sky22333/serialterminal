@@ -53,7 +53,7 @@ const Terminal = (props: TerminalProps) => {
   return (
     <Box
       onKeyDown={handleKeyDown}
-      sx={{ p: .75, display: 'flex', flexDirection: 'column', gap: 1 }}
+      sx={{ p: .75, display: 'flex', flexDirection: 'column', gap: 1, flex: 1, minHeight: 0 }}
     >
       <TerminalOutput
         lines={props.lines}

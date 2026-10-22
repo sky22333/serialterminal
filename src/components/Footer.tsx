@@ -8,7 +8,7 @@ const version = `${import.meta.env.VITE_VERSION || 'dev'}`.slice(0, 7)
 
 const Footer = () => {
     return (
-        <Box sx={{ marginTop: 'auto', py: 1 }}>
+        <Box sx={{ py: 0.75 }}>
             <Typography
                 variant='caption'
                 sx={{ display: 'block', textAlign: 'center', color: 'text.secondary' }}>

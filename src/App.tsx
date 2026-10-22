@@ -450,7 +450,8 @@ function App() {
     <Box sx={{
       display: 'flex',
       flexDirection: 'column',
-      minHeight: '100vh',
+      height: '100dvh',
+      minHeight: 0,
     }}>
       <Header
         connected={connected}
