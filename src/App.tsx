@@ -179,13 +179,13 @@ function App() {
       const info = portInfo(serial.port)
       if (info) writeJSON(LAST_PORT_KEY, info)
 
-      setToast({ open: true, severity: 'success', value: '已连接 🚀' })
+      setToast({ open: true, severity: 'success', value: '已连接' })
     }
 
     serial.onFail = () => {
       setConnected(false)
       setTimerRunning(false)
-      setToast({ open: true, severity: 'error', value: '连接已断开 🙀' })
+      setToast({ open: true, severity: 'error', value: '连接已断开' })
     }
 
     serial.onReceive = (bytes) => {
@@ -252,7 +252,7 @@ function App() {
 
   const persistSettings = React.useCallback((next: SettingsValue) => {
     setSettings(normalizeSettings(next))
-    notify('设置已保存 ✨')
+    notify('设置已保存')
   }, [notify])
 
   // 两个视图都写，切换后仍能看到自己发了什么
@@ -316,7 +316,7 @@ function App() {
     const error = await runSignalAction(serial, id)
 
     if (error) notify(error, 'error')
-    else notify('已发送信号时序 ⚡', 'success')
+    else notify('已发送信号时序', 'success')
   }, [serial, notify])
 
   const handleSaveMacros = React.useCallback((list: Macro[]) => {
@@ -410,7 +410,7 @@ function App() {
     commitPending()
     await serial.close()
     setConnected(false)
-    setToast({ open: true, severity: 'info', value: '已断开连接 👋' })
+    setToast({ open: true, severity: 'info', value: '已断开连接' })
   }, [commitPending, serial])
 
   const handleClear = React.useCallback(() => {
@@ -428,7 +428,7 @@ function App() {
     setTextLines([])
     setHexRows([])
 
-    notify('历史已清空 🧹', 'info')
+    notify('历史已清空', 'info')
   }, [notify, lineBuffer, hexBuffer])
 
   const lines = settings.hexView ? hexRows : textLines
@@ -515,7 +515,14 @@ function App() {
         sendMacro={handleMacro}
       />
 
-      <Snackbar open={toast.open} autoHideDuration={4000} onClose={closeToast}>
+      { /* AppBar 占 64px，提示停在它下面，避免盖住标题 */ }
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={4000}
+        onClose={closeToast}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        slotProps={{ root: { style: { top: 76 } } }}
+      >
         <Alert onClose={closeToast} severity={toast.severity}>
           {toast.value}
         </Alert>

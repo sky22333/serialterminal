@@ -1,6 +1,5 @@
 import React from 'react'
 
-import Badge from '@mui/material/Badge'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -33,13 +32,13 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import HistoryIcon from '@mui/icons-material/History'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import KeyboardDoubleArrowDownRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowDownRounded'
 import PauseIcon from '@mui/icons-material/Pause'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import ScheduleSendIcon from '@mui/icons-material/ScheduleSend'
 import SearchIcon from '@mui/icons-material/Search'
 import SettingsIcon from '@mui/icons-material/Settings'
 import TerminalIcon from '@mui/icons-material/Terminal'
-import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom'
 
 import { parseAnsi, stripAnsi } from '../modules/ansiParser'
 import { downloadLog, formatTime } from '../modules/exportLog'
@@ -545,7 +544,7 @@ const TerminalOutput = (props: TerminalOutputProps) => {
           { /* 自动滚动 */ }
           <Tooltip title={autoScroll ? '暂停自动滚动' : '回到底部并继续滚动'}>
             <Button aria-label={autoScroll ? '暂停自动滚动' : '回到底部'} onClick={toggleAutoScroll}>
-              {autoScroll ? <PauseIcon color='inherit' /> : <VerticalAlignBottomIcon color='inherit' />}
+              {autoScroll ? <PauseIcon color='inherit' /> : <KeyboardDoubleArrowDownRoundedIcon color='inherit' />}
             </Button>
           </Tooltip>
 
@@ -595,31 +594,16 @@ const TerminalOutput = (props: TerminalOutputProps) => {
 
         { /* 暂停时浮出来的「回到底部」 */ }
         {!autoScroll &&
-          <Button
-            className='gotoBottom'
-            onClick={scrollToBottom}
-            aria-label={newCount > 0 ? `回到底部，新增 ${newCount} 行` : '回到底部'}
-          >
-            <Badge
-              badgeContent={newCount}
-              max={99}
-              overlap='circular'
-              sx={{
-                '& .MuiBadge-badge': {
-                  minWidth: 14,
-                  height: 14,
-                  padding: 0,
-                  border: '1px solid #202124',
-                  fontSize: '.52rem',
-                  fontWeight: 700,
-                  background: '#fbbc05',
-                  color: '#202124',
-                },
-              }}
+          <Tooltip title='回到底部并继续滚动' placement='top'>
+            <Button
+              className='gotoBottom'
+              onClick={scrollToBottom}
+              aria-label={newCount > 0 ? `回到底部，新增 ${newCount} 行` : '回到底部'}
             >
-              <VerticalAlignBottomIcon sx={{ fontSize: 17, display: 'block' }} />
-            </Badge>
-          </Button>
+              {newCount > 0 && <span className='newLines'>+{newCount}</span>}
+              <KeyboardDoubleArrowDownRoundedIcon sx={{ fontSize: 19, display: 'block' }} />
+            </Button>
+          </Tooltip>
         }
 
       </Box>

@@ -288,6 +288,19 @@ span.pending::after {
     border-color: #fbbc05;
 }
 
+/* 新增行数贴在按钮左侧外，不压圆环也不额外占背景 */
+.contentWrap>.gotoBottom>.newLines {
+    position: absolute;
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fbbc05;
+    font-size: .72rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
 /* 命令宏快捷条 */
 .macroBar {
     display: flex;

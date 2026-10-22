@@ -75,7 +75,7 @@ const Home = (props: HomeProps) => {
                         >
                             <li>点击「连接设备」</li>
                             <li>插入设备并选择串口</li>
-                            <li>开始收发数据 😊</li>
+                            <li>开始收发数据</li>
                         </Box>
                     </Alert>
 
@@ -107,7 +107,7 @@ const Home = (props: HomeProps) => {
                         },
                     }}
                 >
-                    <AlertTitle>你的浏览器不支持 Web Serial 😭</AlertTitle>
+                    <AlertTitle>你的浏览器不支持 Web Serial</AlertTitle>
 
                     <Typography variant='body2' sx={{ mb: 1 }}>
                         请使用桌面版&nbsp;

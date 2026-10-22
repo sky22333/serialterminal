@@ -26,7 +26,7 @@ const ErrorMessage = (props: ErrorMessageProps) => {
                 </DialogContentText>
 
                 <Typography sx={{ mt: 2 }}>
-                    看起来出了点问题 😢<br />
+                    看起来出了点问题<br />
                     请确认设备已插好、没有被其他程序占用，<br />
                     并建议使用最新版的&nbsp;
                     <a href='https://www.google.com/chrome/' target='_blank' rel='noopener noreferrer'>
